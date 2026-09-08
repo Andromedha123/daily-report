@@ -787,6 +787,8 @@ class="report-preview">
 
 <script>
 
+const API_URL = "https://script.google.com/macros/s/AKfycbxbaUjlct0b7zJS6GE3JMcwVV-2jzO5QhXrCSW02rb40tqBsEMRe9q4754dROEmDj6n/exec"
+
 /* =====================================================
    INITIAL DATA
 ===================================================== */
@@ -1302,32 +1304,63 @@ row.querySelector(".itemJumlah")?.value || ""
    SAVE
 ===================================================== */
 
-function simpanLaporan() {
+async function simpanLaporan() {
 
-const data = getFormData();
+    const data = getFormData();
 
-let reports =
-JSON.parse(localStorage.getItem("laporanKerja")) || [];
+    if (!data.divisi.trim()) {
+        alert("Silakan isi nama divisi.");
+        return;
+    }
 
-reports.push({
+    if (!data.tanggal) {
+        alert("Silakan pilih tanggal laporan.");
+        return;
+    }
 
-id: Date.now(),
+    try {
 
-createdAt:
-new Date().toLocaleString("id-ID"),
+        const response = await fetch(API_URL, {
 
-data
+            method: "POST",
 
-});
+            headers: {
+                "Content-Type": "text/plain;charset=utf-8"
+            },
 
-localStorage.setItem(
-"laporanKerja",
-JSON.stringify(reports)
-);
+            body: JSON.stringify(data)
 
-alert("Laporan berhasil disimpan.");
+        });
 
-loadReports();
+        const result =
+            await response.json();
+
+        if (result.success) {
+
+            alert(
+                "Laporan berhasil disimpan dan dapat dilihat oleh semua pengguna."
+            );
+
+            loadReports();
+
+        } else {
+
+            alert(
+                "Gagal menyimpan laporan: " +
+                result.error
+            );
+
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Tidak dapat terhubung ke database."
+        );
+
+    }
 
 }
 
@@ -1342,7 +1375,108 @@ const container =
 document.getElementById("savedReports");
 
 const reports =
-JSON.parse(localStorage.getItem("laporanKerja")) || [];
+async function loadReports() {
+
+    const container =
+        document.getElementById("savedReports");
+
+    container.innerHTML =
+        "<p>⏳ Memuat laporan...</p>";
+
+    try {
+
+        const response =
+            await fetch(API_URL);
+
+        const reports =
+            await response.json();
+
+        container.innerHTML = "";
+
+        if (!reports || reports.length === 0) {
+
+            container.innerHTML =
+                "<p>Belum ada laporan.</p>";
+
+            return;
+        }
+
+        reports
+            .slice()
+            .reverse()
+            .forEach(report => {
+
+                const data =
+                    report.Data || {};
+
+                const div =
+                    document.createElement("div");
+
+                div.className =
+                    "saved-report";
+
+                div.innerHTML = `
+
+                    <div>
+
+                        <strong>
+                            Laporan Divisi
+                            ${escapeHTML(data.divisi || "-")}
+                        </strong>
+
+                        <br>
+
+                        <small>
+
+                            ${formatDate(data.tanggal)}
+
+                            •
+                            
+                            ${data.start || "-"}
+                            -
+                            ${data.finish || "-"}
+
+                        </small>
+
+                    </div>
+
+                    <div>
+
+                        <button
+                            class="btn-secondary"
+                            onclick='lihatLaporanOnline(${JSON.stringify(
+                                data
+                            )})'>
+
+                            Lihat
+
+                        </button>
+
+                    </div>
+
+                `;
+
+                container.appendChild(div);
+
+            });
+
+    } catch (error) {
+
+        console.error(error);
+
+        container.innerHTML = `
+
+            <p style="color:#b91c1c">
+
+                ❌ Gagal mengambil laporan dari server.
+
+            </p>
+
+        `;
+
+    }
+
+}
 
 container.innerHTML = "";
 
@@ -1437,31 +1571,6 @@ window.scrollTo({
 top: 0,
 behavior: "smooth"
 });
-
-}
-
-
-/* =====================================================
-   DELETE
-===================================================== */
-
-function hapusLaporan(id) {
-
-if(!confirm("Hapus laporan ini?"))
-return;
-
-let reports =
-JSON.parse(localStorage.getItem("laporanKerja")) || [];
-
-reports =
-reports.filter(x => x.id !== id);
-
-localStorage.setItem(
-"laporanKerja",
-JSON.stringify(reports)
-);
-
-loadReports();
 
 }
 
@@ -2086,6 +2195,17 @@ sayur.querySelector(".itemFinish").value = "06:20";
 
 
 /* LOAD REPORT */
+
+function escapeHTML(text) {
+
+         return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
 
 loadReports();
 
