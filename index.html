@@ -1,0 +1,2096 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Daily Report</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0; 
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f6f9;
+    color: #1f2937;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+    background: linear-gradient(135deg, #7c3aed, #4f46e5);
+    color: white;
+    padding: 28px 20px;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: auto;
+}
+
+.header h1 {
+    font-size: 26px;
+    margin-bottom: 6px;
+}
+
+.header p {
+    opacity: .9;
+}
+
+/* =========================
+   CONTAINER
+========================= */
+
+.container {
+    max-width: 1200px;
+    margin: 25px auto;
+    padding: 0 15px;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.card {
+    background: white;
+    border-radius: 14px;
+    padding: 22px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 20px rgba(0,0,0,.06);
+}
+
+.card-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.card-title h2 {
+    font-size: 18px;
+}
+
+.section-number {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #ede9fe;
+    color: #6d28d9;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 8px;
+    font-weight: bold;
+}
+
+/* =========================
+   GRID
+========================= */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+@media(max-width: 700px) {
+
+    .grid,
+    .grid-3 {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+/* =========================
+   FORM
+========================= */
+
+label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 7px;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 11px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    transition: .2s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #7c3aed;
+    box-shadow: 0 0 0 3px rgba(124,58,237,.1);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 90px;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+button {
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 10px 15px;
+    font-weight: 600;
+    transition: .2s;
+}
+
+.btn-primary {
+    background: #6d28d9;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #5b21b6;
+}
+
+.btn-secondary {
+    background: #eef2ff;
+    color: #4338ca;
+}
+
+.btn-danger {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.btn-success {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.btn-dark {
+    background: #111827;
+    color: white;
+}
+
+/* =========================
+   DYNAMIC ROW
+========================= */
+
+.dynamic-row {
+    display: grid;
+    grid-template-columns: 1fr 150px 150px 45px;
+    gap: 10px;
+    align-items: end;
+    margin-bottom: 10px;
+}
+
+.dynamic-row-3 {
+    display: grid;
+    grid-template-columns: 1fr 150px 150px 100px 45px;
+    gap: 10px;
+    align-items: end;
+    margin-bottom: 10px;
+}
+
+@media(max-width: 700px) {
+
+    .dynamic-row,
+    .dynamic-row-3 {
+        grid-template-columns: 1fr;
+        padding: 12px;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+    }
+
+}
+
+/* =========================
+   CATEGORY
+========================= */
+
+.category {
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.category h3 {
+    font-size: 15px;
+    margin-bottom: 12px;
+}
+
+.category.hewan {
+    border-left: 4px solid #ef4444;
+}
+
+.category.nabati {
+    border-left: 4px solid #22c55e;
+}
+
+.category.sayur {
+    border-left: 4px solid #f59e0b;
+}
+
+.category.buah {
+    border-left: 4px solid #f59e0b;
+}
+
+/* =========================
+   KLOTER
+========================= */
+
+.kloter {
+    border: 1px solid #ddd6fe;
+    background: #faf9ff;
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 20px;
+}
+
+.kloter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.kloter-header h3 {
+    color: #5b21b6;
+}
+
+/* =========================
+   REPORT PREVIEW
+========================= */
+
+.report-preview {
+    display: none;
+    background: white;
+    padding: 35px;
+    max-width: 900px;
+    margin: auto;
+}
+
+.report-title {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.report-title h1 {
+    font-size: 22px;
+}
+
+.report-title p {
+    margin-top: 5px;
+}
+
+.report-info {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.report-info td {
+    padding: 7px;
+    border: 1px solid #ddd;
+}
+
+.report-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.report-table th,
+.report-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    font-size: 13px;
+}
+
+.report-table th {
+    background: #f3f4f6;
+}
+
+/* =========================
+   SAVED REPORT
+========================= */
+
+.saved-report {
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.saved-report small {
+    color: #6b7280;
+}
+
+@media(max-width: 700px) {
+
+    .saved-report {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer {
+    text-align: center;
+    color: #6b7280;
+    padding: 30px;
+    font-size: 13px;
+}
+
+/* =========================
+   PRINT
+========================= */
+
+@media print {
+
+    body {
+        background: white;
+    }
+
+    body > * {
+        display: none !important;
+    }
+
+    #reportPreview {
+        display: block !important;
+    }
+
+    .report-preview {
+        display: block;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header class="header">
+
+<div class="header-container">
+
+<h1>📋 Daily Report </h1>
+
+<p>
+    Daily Report All Division SPPG Magelang Muntilan Gunungpring
+</p>
+
+</div>
+
+</header>
+
+
+<div class="container">
+
+<!-- =========================
+     INFORMASI DASAR
+========================= -->
+
+<div class="card">
+
+<div class="card-title">
+
+<h2>
+<span class="section-number">1</span>
+Informasi Laporan
+</h2>
+
+</div>
+
+<div class="grid-3">
+
+<div>
+<label>Divisi</label>
+
+<input
+type="text"
+id="divisi"
+value="Pengolahan"
+placeholder="Nama divisi">
+</div>
+
+
+<div>
+
+<label>Hari & Tanggal</label>
+
+<input
+type="date"
+id="tanggal">
+
+</div>
+
+
+<div>
+
+<label>Jumlah Anggota</label>
+
+<input
+type="number"
+id="anggota"
+value="6"
+min="1">
+
+</div>
+
+
+<div>
+
+<label>Start</label>
+
+<input
+type="time"
+id="start">
+
+</div>
+
+
+<div>
+
+<label>Finish</label>
+
+<input
+type="time"
+id="finish">
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     AKTIVITAS
+========================= -->
+
+<div class="card">
+
+<div class="card-title">
+
+<h2>
+<span class="section-number">2</span>
+Aktivitas yang Sudah Dilakukan
+</h2>
+
+<button
+class="btn-secondary"
+onclick="addAktivitas()">
+
++ Tambah Aktivitas
+
+</button>
+
+</div>
+
+
+<div id="aktivitasContainer"></div>
+
+</div>
+
+
+<!-- =========================
+     NASI
+========================= -->
+
+<div class="card">
+
+<div class="card-title">
+
+<h2>
+<span class="section-number">3</span>
+Produksi Nasi
+</h2>
+
+<button
+class="btn-secondary"
+onclick="addBatch()">
+
++ Tambah Batch
+
+</button>
+
+</div>
+
+<div id="batchContainer"></div>
+
+</div>
+
+
+<!-- =========================
+     KLOTER
+========================= -->
+
+<div class="card">
+
+<div class="card-title">
+
+<h2>
+<span class="section-number">4</span>
+Produksi Berdasarkan Kloter
+</h2>
+
+<button
+class="btn-secondary"
+onclick="addKloter()">
+
++ Tambah Kloter
+
+</button>
+
+</div>
+
+<div id="kloterContainer"></div>
+
+</div>
+
+
+<!-- =========================
+     ALERGI
+========================= -->
+
+<div class="card">
+
+<div class="card-title">
+
+<h2>
+<span class="section-number">5</span>
+Alergi
+</h2>
+
+</div>
+
+<div class="grid">
+
+<div>
+
+<label>Jumlah Alergi</label>
+
+<input
+type="number"
+id="alergi"
+value=""
+min="0">
+
+</div>
+
+<div>
+
+<label>Keterangan Alergi</label>
+
+<textarea
+id="alergiKeterangan"
+placeholder="Contoh: alergi telur, ikan, susu..."></textarea>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     BAHAN
+========================= -->
+
+<div class="card">
+
+<div class="card-title">
+
+<h2>
+<span class="section-number">6</span>
+Bahan Kurang / Rusak
+</h2>
+
+</div>
+
+<div class="grid">
+
+<div>
+
+<label>Bahan Rusak</label>
+
+<textarea
+id="bahanRusak"
+placeholder="Contoh: ayam 2 kg rusak...">-</textarea>
+
+</div>
+
+
+<div>
+
+<label>Bahan Kurang</label>
+
+<textarea
+id="bahanKurang"
+placeholder="Contoh: minyak goreng kurang 5 liter...">-</textarea>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     CATATAN
+========================= -->
+
+<div class="card">
+
+<div class="card-title">
+
+<h2>
+<span class="section-number">7</span>
+Catatan Tambahan
+</h2>
+
+</div>
+
+<textarea
+id="catatan"
+placeholder="Tuliskan catatan tambahan..."></textarea>
+
+</div>
+
+
+<!-- =========================
+     ACTION
+========================= -->
+
+<div class="card">
+
+<div style="
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+">
+
+<button
+class="btn-primary"
+onclick="simpanLaporan()">
+
+💾 Simpan Laporan
+
+</button>
+
+
+<button
+class="btn-dark"
+onclick="previewLaporan()">
+
+👁️ Preview
+
+</button>
+
+
+<button
+class="btn-success"
+onclick="cetakLaporan()">
+
+🖨️ Cetak / PDF
+
+</button>
+
+
+<button
+class="btn-danger"
+onclick="resetForm()">
+
+↻ Reset
+
+</button>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     RIWAYAT
+========================= -->
+
+<div class="card">
+
+<div class="card-title">
+
+<h2>
+📚 Riwayat Laporan
+</h2>
+
+</div>
+
+<div id="savedReports"></div>
+
+</div>
+
+</div>
+
+
+<div class="footer">
+
+Daily Report SPPG Andromedha © 2026
+
+</div>
+
+
+<!-- =========================
+     REPORT PREVIEW
+========================= -->
+
+<div
+id="reportPreview"
+class="report-preview">
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   INITIAL DATA
+===================================================== */
+
+let aktivitasCount = 0;
+let batchCount = 0;
+let kloterCount = 0;
+
+
+/* =====================================================
+   DATE DEFAULT
+===================================================== */
+
+const today = new Date();
+
+document.getElementById("tanggal").value =
+today.toISOString().split("T")[0];
+
+
+/* =====================================================
+   AKTIVITAS
+===================================================== */
+
+function addAktivitas(value = "") {
+
+aktivitasCount++;
+
+const container =
+document.getElementById("aktivitasContainer");
+
+const div =
+document.createElement("div");
+
+div.className = "dynamic-row";
+
+div.innerHTML = `
+
+<div>
+
+<label>Aktivitas ${aktivitasCount}</label>
+
+<input
+type="text"
+class="aktivitas"
+value="${value}"
+placeholder="Contoh: Membuat Dori goreng tepung">
+
+</div>
+
+<button
+class="btn-danger"
+onclick="this.parentElement.remove()">
+
+✕
+
+</button>
+
+`;
+
+container.appendChild(div);
+
+}
+
+
+/* =====================================================
+   BATCH NASI
+===================================================== */
+
+function addBatch() {
+
+batchCount++;
+
+const container =
+document.getElementById("batchContainer");
+
+const div =
+document.createElement("div");
+
+div.className = "dynamic-row";
+
+div.innerHTML = `
+
+<div>
+
+<label>Batch ${batchCount}</label>
+
+<input
+type="text"
+class="batchNama"
+value="Batch ${batchCount}">
+
+</div>
+
+<div>
+
+<label>Start</label>
+
+<input
+type="time"
+class="batchStart">
+
+</div>
+
+<div>
+
+<label>Finish</label>
+
+<input
+type="time"
+class="batchFinish">
+
+</div>
+
+<div>
+
+<label>Loyang</label>
+
+<input
+type="number"
+class="batchLoyang"
+placeholder="12">
+
+</div>
+
+<button
+class="btn-danger"
+onclick="this.parentElement.remove()">
+
+✕
+
+</button>
+
+`;
+
+container.appendChild(div);
+
+}
+
+
+/* =====================================================
+   KLOTER
+===================================================== */
+
+function addKloter() {
+
+kloterCount++;
+
+const container =
+document.getElementById("kloterContainer");
+
+const div =
+document.createElement("div");
+
+div.className = "kloter";
+
+div.dataset.kloter = kloterCount;
+
+div.innerHTML = `
+
+<div class="kloter-header">
+
+<h3>🍱 KLOTER ${kloterCount}</h3>
+
+<button
+class="btn-danger"
+onclick="this.closest('.kloter').remove()">
+
+Hapus Kloter
+
+</button>
+
+</div>
+
+
+<div class="grid">
+
+<div>
+
+<label>Start</label>
+
+<input
+type="time"
+class="kloterStart">
+
+</div>
+
+
+<div>
+
+<label>Finish</label>
+
+<input
+type="time"
+class="kloterFinish">
+
+</div>
+
+
+<div>
+
+<label>Jumlah Porsi</label>
+
+<input
+type="number"
+class="kloterPorsi"
+placeholder="1500">
+
+</div>
+
+</div>
+
+
+<br>
+
+
+<!-- HEWANI -->
+
+<div class="category hewan">
+
+<h3>🥩 Lauk Hewani</h3>
+
+<button
+class="btn-secondary"
+onclick="addItem(this,'hewan')">
+
++ Tambah
+
+</button>
+
+<div class="hewanContainer"></div>
+
+</div>
+
+
+<!-- NABATI -->
+
+<div class="category nabati">
+
+<h3>🌱 Lauk Nabati</h3>
+
+<button
+class="btn-secondary"
+onclick="addItem(this,'nabati')">
+
++ Tambah
+
+</button>
+
+<div class="nabatiContainer"></div>
+
+</div>
+
+
+<!-- SAYUR -->
+
+<div class="category sayur">
+
+<h3>🥬 Sayur</h3>
+
+<button
+class="btn-secondary"
+onclick="addItem(this,'sayur')">
+
++ Tambah
+
+</button>
+
+<div class="sayurContainer"></div>
+
+</div>
+
+<!-- BUAH -->
+
+<div class="category buah">
+
+<h3>🍉 Buah</h3>
+
+<button
+class="btn-secondary"
+onclick="addItem(this,'buah')">
+
++ Tambah
+
+</button>
+
+<div class="buahContainer"></div>
+
+</div>
+
+`;
+
+container.appendChild(div);
+
+}
+
+
+/* =====================================================
+   ADD ITEM
+===================================================== */
+
+function addItem(button, type) {
+
+const category =
+button.parentElement;
+
+const container =
+category.querySelector("." + type + "Container");
+
+const div =
+document.createElement("div");
+
+div.className = "dynamic-row-3";
+
+let label = "";
+
+if(type === "hewan")
+label = "Lauk hewani";
+
+if(type === "nabati")
+label = "Lauk nabati";
+
+if(type === "sayur")
+label = "Sayur";
+
+if(type === "buah")
+label = "Buah";
+
+
+div.innerHTML = `
+
+<div>
+
+<label>Jenis / Keterangan</label>
+
+<input
+type="text"
+class="itemNama"
+placeholder="${label}">
+
+</div>
+
+
+<div>
+
+<label>Start</label>
+
+<input
+type="time"
+class="itemStart">
+
+</div>
+
+
+<div>
+
+<label>Finish</label>
+
+<input
+type="time"
+class="itemFinish">
+
+</div>
+
+
+<div>
+
+<label>Jumlah / Kg</label>
+
+<input
+type="text"
+class="itemJumlah"
+placeholder="17 kg">
+
+</div>
+
+
+<button
+class="btn-danger"
+onclick="this.parentElement.remove()">
+
+✕
+
+</button>
+
+`;
+
+container.appendChild(div);
+
+}
+
+
+/* =====================================================
+   GET DATA
+===================================================== */
+
+function getFormData() {
+
+const aktivitas =
+[...document.querySelectorAll(".aktivitas")]
+.map(x => x.value)
+.filter(x => x.trim() !== "");
+
+
+const batches =
+[...document.querySelectorAll("#batchContainer .dynamic-row")]
+.map(row => ({
+
+nama: row.querySelector(".batchNama")?.value || "",
+start: row.querySelector(".batchStart")?.value || "",
+finish: row.querySelector(".batchFinish")?.value || "",
+loyang: row.querySelector(".batchLoyang")?.value || ""
+
+}));
+
+
+const kloters =
+[...document.querySelectorAll(".kloter")]
+.map(k => ({
+
+start:
+k.querySelector(".kloterStart")?.value || "",
+
+finish:
+k.querySelector(".kloterFinish")?.value || "",
+
+porsi:
+k.querySelector(".kloterPorsi")?.value || "",
+
+hewan:
+getItems(k.querySelector(".hewanContainer")),
+
+nabati:
+getItems(k.querySelector(".nabatiContainer")),
+
+sayur:
+getItems(k.querySelector(".sayurContainer")),
+
+buah:
+getItems(k.querySelector(".buahContainer"))
+
+}));
+
+
+return {
+
+divisi:
+document.getElementById("divisi").value,
+
+tanggal:
+document.getElementById("tanggal").value,
+
+anggota:
+document.getElementById("anggota").value,
+
+start:
+document.getElementById("start").value,
+
+finish:
+document.getElementById("finish").value,
+
+aktivitas,
+
+batches,
+
+kloters,
+
+alergi:
+document.getElementById("alergi").value,
+
+alergiKeterangan:
+document.getElementById("alergiKeterangan").value,
+
+bahanRusak:
+document.getElementById("bahanRusak").value,
+
+bahanKurang:
+document.getElementById("bahanKurang").value,
+
+catatan:
+document.getElementById("catatan").value
+
+};
+
+}
+
+
+function getItems(container) {
+
+if(!container)
+return [];
+
+return [...container.querySelectorAll(".dynamic-row-3")]
+.map(row => ({
+
+nama:
+row.querySelector(".itemNama")?.value || "",
+
+start:
+row.querySelector(".itemStart")?.value || "",
+
+finish:
+row.querySelector(".itemFinish")?.value || "",
+
+jumlah:
+row.querySelector(".itemJumlah")?.value || ""
+
+}));
+
+}
+
+
+/* =====================================================
+   SAVE
+===================================================== */
+
+function simpanLaporan() {
+
+const data = getFormData();
+
+let reports =
+JSON.parse(localStorage.getItem("laporanKerja")) || [];
+
+reports.push({
+
+id: Date.now(),
+
+createdAt:
+new Date().toLocaleString("id-ID"),
+
+data
+
+});
+
+localStorage.setItem(
+"laporanKerja",
+JSON.stringify(reports)
+);
+
+alert("Laporan berhasil disimpan.");
+
+loadReports();
+
+}
+
+
+/* =====================================================
+   LOAD REPORT
+===================================================== */
+
+function loadReports() {
+
+const container =
+document.getElementById("savedReports");
+
+const reports =
+JSON.parse(localStorage.getItem("laporanKerja")) || [];
+
+container.innerHTML = "";
+
+if(reports.length === 0) {
+
+container.innerHTML =
+"<p>Belum ada laporan.</p>";
+
+return;
+
+}
+
+
+reports
+.slice()
+.reverse()
+.forEach(report => {
+
+const div =
+document.createElement("div");
+
+div.className =
+"saved-report";
+
+div.innerHTML = `
+
+<div>
+
+<strong>
+Laporan Divisi ${report.data.divisi}
+</strong>
+
+<br>
+
+<small>
+${formatDate(report.data.tanggal)}
+•
+${report.data.start || "-"} -
+${report.data.finish || "-"}
+</small>
+
+</div>
+
+<div>
+
+<button
+class="btn-secondary"
+onclick="lihatLaporan(${report.id})">
+
+Lihat
+
+</button>
+
+
+<button
+class="btn-danger"
+onclick="hapusLaporan(${report.id})">
+
+Hapus
+
+</button>
+
+</div>
+
+`;
+
+container.appendChild(div);
+
+});
+
+}
+
+
+/* =====================================================
+   VIEW REPORT
+===================================================== */
+
+function lihatLaporan(id) {
+
+const reports =
+JSON.parse(localStorage.getItem("laporanKerja")) || [];
+
+const report =
+reports.find(x => x.id === id);
+
+if(!report)
+return;
+
+buatPreview(report.data);
+
+window.scrollTo({
+top: 0,
+behavior: "smooth"
+});
+
+}
+
+
+/* =====================================================
+   DELETE
+===================================================== */
+
+function hapusLaporan(id) {
+
+if(!confirm("Hapus laporan ini?"))
+return;
+
+let reports =
+JSON.parse(localStorage.getItem("laporanKerja")) || [];
+
+reports =
+reports.filter(x => x.id !== id);
+
+localStorage.setItem(
+"laporanKerja",
+JSON.stringify(reports)
+);
+
+loadReports();
+
+}
+
+
+/* =====================================================
+   PREVIEW
+===================================================== */
+
+function previewLaporan() {
+
+const data =
+getFormData();
+
+buatPreview(data);
+
+window.scrollTo({
+top: 0,
+behavior: "smooth"
+});
+
+}
+
+
+/* =====================================================
+   CREATE REPORT
+===================================================== */
+
+function buatPreview(data) {
+
+const preview =
+document.getElementById("reportPreview");
+
+let html = `
+
+<div class="report-title">
+
+<h1>
+LAPORAN AKTIVITAS KERJA HARIAN
+</h1>
+
+<p>
+DIVISI ${data.divisi.toUpperCase()}
+</p>
+
+</div>
+
+
+<table class="report-info">
+
+<tr>
+<td width="25%"><b>Hari & Tanggal</b></td>
+<td>${formatDate(data.tanggal)}</td>
+</tr>
+
+<tr>
+<td><b>Start</b></td>
+<td>${data.start || "-"}</td>
+</tr>
+
+<tr>
+<td><b>Finish</b></td>
+<td>${data.finish || "-"}</td>
+</tr>
+
+<tr>
+<td><b>Jumlah Anggota</b></td>
+<td>${data.anggota} orang</td>
+</tr>
+
+</table>
+
+
+<h3>Aktivitas yang Sudah Dilakukan</h3>
+
+<ol>
+`;
+
+data.aktivitas.forEach(item => {
+
+html += `<li>${item}</li>`;
+
+});
+
+html += `
+</ol>
+
+<br>
+
+<h3>Produksi Nasi</h3>
+
+<table class="report-table">
+
+<tr>
+<th>Batch</th>
+<th>Start</th>
+<th>Finish</th>
+<th>Loyang</th>
+</tr>
+`;
+
+
+data.batches.forEach(batch => {
+
+html += `
+
+<tr>
+
+<td>${batch.nama}</td>
+
+<td>${batch.start || "-"}</td>
+
+<td>${batch.finish || "-"}</td>
+
+<td>${batch.loyang || "-"}</td>
+
+</tr>
+
+`;
+
+});
+
+
+html += `
+
+</table>
+
+`;
+
+
+/* =========================
+   KLOTER
+========================= */
+
+data.kloters.forEach((k, index) => {
+
+html += `
+
+<h3>
+KLOTER ${index + 1}
+</h3>
+
+<p>
+${k.start || "-"} -
+${k.finish || "-"}
+•
+± ${k.porsi || "-"} porsi
+</p>
+
+<br>
+
+`;
+
+
+/* Hewani */
+
+html += `
+<strong>🥩 Lauk Hewani</strong>
+
+<table class="report-table">
+
+<tr>
+<th>No</th>
+<th>Kegiatan</th>
+<th>Start</th>
+<th>Finish</th>
+<th>Jumlah</th>
+</tr>
+`;
+
+k.hewan.forEach((item, i) => {
+
+html += `
+
+<tr>
+
+<td>${i + 1}</td>
+<td>${item.nama || "-"}</td>
+<td>${item.start || "-"}</td>
+<td>${item.finish || "-"}</td>
+<td>${item.jumlah || "-"}</td>
+
+</tr>
+
+`;
+
+});
+
+html += `</table>`;
+
+
+/* Nabati */
+
+html += `
+<strong>🌱 Lauk Nabati</strong>
+
+<table class="report-table">
+
+<tr>
+<th>No</th>
+<th>Kegiatan</th>
+<th>Start</th>
+<th>Finish</th>
+<th>Jumlah</th>
+</tr>
+`;
+
+k.nabati.forEach((item, i) => {
+
+html += `
+
+<tr>
+
+<td>${i + 1}</td>
+<td>${item.nama || "-"}</td>
+<td>${item.start || "-"}</td>
+<td>${item.finish || "-"}</td>
+<td>${item.jumlah || "-"}</td>
+
+</tr>
+
+`;
+
+});
+
+html += `</table>`;
+
+
+/* Sayur */
+
+html += `
+<strong>🥬 Sayur</strong>
+
+<table class="report-table">
+
+<tr>
+<th>No</th>
+<th>Kegiatan</th>
+<th>Start</th>
+<th>Finish</th>
+<th>Jumlah</th>
+</tr>
+`;
+
+k.sayur.forEach((item, i) => {
+
+html += `
+
+<tr>
+
+<td>${i + 1}</td>
+<td>${item.nama || "-"}</td>
+<td>${item.start || "-"}</td>
+<td>${item.finish || "-"}</td>
+<td>${item.jumlah || "-"}</td>
+
+</tr>
+
+`;
+
+});
+
+html += `</table>`;
+
+/* Buah */
+
+html += `
+<strong>🍉 Buah</strong>
+
+<table class="report-table">
+
+<tr>
+<th>No</th>
+<th>Kegiatan</th>
+<th>Start</th>
+<th>Finish</th>
+<th>Jumlah</th>
+</tr>
+`;
+
+k.buah.forEach((item, i) => {
+
+html += `
+
+<tr>
+
+<td>${i + 1}</td>
+<td>${item.nama || "-"}</td>
+<td>${item.start || "-"}</td>
+<td>${item.finish || "-"}</td>
+<td>${item.jumlah || "-"}</td>
+
+</tr>
+
+`;
+
+});
+
+html += `</table>`;
+
+});
+
+
+
+/* =========================
+   ALERGI
+========================= */
+
+html += `
+
+<h3>Alergi</h3>
+
+<p>
+${data.alergi || 0} orang
+</p>
+
+<p>
+${data.alergiKeterangan || "-"}
+</p>
+
+<br>
+
+
+<h3>Bahan Kurang / Rusak</h3>
+
+<table class="report-table">
+
+<tr>
+<th>Bahan Rusak</th>
+<th>Bahan Kurang</th>
+</tr>
+
+<tr>
+
+<td>
+${data.bahanRusak || "-"}
+</td>
+
+<td>
+${data.bahanKurang || "-"}
+</td>
+
+</tr>
+
+</table>
+
+
+<h3>Catatan Tambahan</h3>
+
+<p>
+${data.catatan || "-"}
+</p>
+
+<br><br>
+
+
+<p>
+Sekian laporan dari Divisi ${data.divisi},
+dengan anggota ${data.anggota} orang.
+</p>
+
+<br><br>
+
+
+<div style="
+display:flex;
+justify-content:space-between;
+text-align:center;
+">
+
+<div>
+Mengetahui,<br><br><br>
+____________________
+</div>
+
+<div>
+Dibuat oleh,<br><br><br>
+____________________
+</div>
+
+</div>
+
+`;
+
+preview.innerHTML = html;
+
+preview.style.display = "block";
+
+}
+
+
+/* =====================================================
+   PRINT
+===================================================== */
+
+function cetakLaporan() {
+
+previewLaporan();
+
+setTimeout(() => {
+
+window.print();
+
+}, 300);
+
+}
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
+function resetForm() {
+
+if(!confirm("Reset semua input?"))
+return;
+
+location.reload();
+
+}
+
+
+/* =====================================================
+   DATE FORMAT
+===================================================== */
+
+function formatDate(dateString) {
+
+if(!dateString)
+return "-";
+
+const date =
+new Date(dateString + "T00:00:00");
+
+return date.toLocaleDateString(
+"id-ID",
+{
+weekday: "long",
+day: "2-digit",
+month: "long",
+year: "numeric"
+});
+
+}
+
+
+/* =====================================================
+   DEFAULT DATA CONTOH
+===================================================== */
+
+addAktivitas("");
+
+addBatch();
+
+document.querySelector(".batchStart").value = "";
+document.querySelector(".batchFinish").value = "";
+document.querySelector(".batchLoyang").value = "";
+
+
+addBatch();
+
+batches =
+document.querySelectorAll("#batchContainer .dynamic-row");
+
+batches[3].querySelector(".batchStart").value = "03:00";
+batches[3].querySelector(".batchFinish").value = "04:00";
+batches[3].querySelector(".batchLoyang").value = "5";
+
+
+/* KLOTER 1 */
+
+addKloter();
+
+let kloter =
+document.querySelectorAll(".kloter")[0];
+
+kloter.querySelector(".kloterStart").value = "02:25";
+kloter.querySelector(".kloterFinish").value = "04:45";
+kloter.querySelector(".kloterPorsi").value = "1500";
+
+
+/* Hewani */
+
+addItem(
+kloter.querySelector(".hewanContainer")
+.previousElementSibling,
+"hewan"
+);
+
+let hewan =
+kloter.querySelector(".hewanContainer .dynamic-row-3");
+
+hewan.querySelector(".itemNama").value =
+"Membuat Dori goreng tepung";
+
+hewan.querySelector(".itemStart").value =
+"02:00";
+
+hewan.querySelector(".itemFinish").value =
+"06:00";
+
+
+/* Nabati */
+
+for(let i = 0; i < 3; i++) {
+
+addItem(
+kloter.querySelector(".nabatiContainer")
+.previousElementSibling,
+"nabati"
+);
+
+}
+
+let nabati =
+kloter.querySelectorAll(".nabatiContainer .dynamic-row-3");
+
+nabati[0].querySelector(".itemStart").value = "02:40";
+nabati[0].querySelector(".itemFinish").value = "03:30";
+
+nabati[1].querySelector(".itemStart").value = "03:40";
+nabati[1].querySelector(".itemFinish").value = "04:10";
+
+nabati[2].querySelector(".itemStart").value = "04:15";
+nabati[2].querySelector(".itemFinish").value = "04:35";
+
+
+/* Sayur */
+
+for(let i = 0; i < 3; i++) {
+
+addItem(
+kloter.querySelector(".sayurContainer")
+.previousElementSibling,
+"sayur"
+);
+
+}
+
+let sayur =
+kloter.querySelectorAll(".sayurContainer .dynamic-row-3");
+
+sayur[0].querySelector(".itemStart").value = "02:15";
+sayur[0].querySelector(".itemFinish").value = "02:30";
+sayur[0].querySelector(".itemJumlah").value = "17 kg";
+
+sayur[1].querySelector(".itemStart").value = "02:40";
+sayur[1].querySelector(".itemFinish").value = "02:55";
+sayur[1].querySelector(".itemJumlah").value = "18 kg";
+
+sayur[2].querySelector(".itemStart").value = "02:55";
+sayur[2].querySelector(".itemFinish").value = "03:15";
+sayur[2].querySelector(".itemJumlah").value = "19 kg";
+
+/* Buah */
+
+for(let i = 0; i < 3; i++) {
+
+addItem(
+kloter.querySelector(".buahContainer")
+.previousElementSibling,
+"buah"
+);
+
+}
+
+let buah =
+kloter.querySelectorAll(".buahContainer .dynamic-row-3");
+
+buah[0].querySelector(".itemStart").value = "02:15";
+buah[0].querySelector(".itemFinish").value = "02:30";
+buah[0].querySelector(".itemJumlah").value = "17 kg";
+
+buah[1].querySelector(".itemStart").value = "02:40";
+buah[1].querySelector(".itemFinish").value = "02:55";
+buah[1].querySelector(".itemJumlah").value = "18 kg";
+
+buah[2].querySelector(".itemStart").value = "02:55";
+buah[2].querySelector(".itemFinish").value = "03:15";
+buah[2].querySelector(".itemJumlah").value = "19 kg";
+
+
+/* KLOTER 2 */
+
+addKloter();
+
+kloter =
+document.querySelectorAll(".kloter")[1];
+
+kloter.querySelector(".kloterStart").value = "05:35";
+kloter.querySelector(".kloterFinish").value = "06:20";
+kloter.querySelector(".kloterPorsi").value = "350";
+
+
+/* Nabati Kloter 2 */
+
+addItem(
+kloter.querySelector(".nabatiContainer")
+.previousElementSibling,
+"nabati"
+);
+
+nabati =
+kloter.querySelector(".nabatiContainer .dynamic-row-3");
+
+nabati.querySelector(".itemStart").value = "05:36";
+nabati.querySelector(".itemFinish").value = "06:20";
+
+
+/* Sayur Kloter 2 */
+
+addItem(
+kloter.querySelector(".sayurContainer")
+.previousElementSibling,
+"sayur"
+);
+
+sayur =
+kloter.querySelector(".sayurContainer .dynamic-row-3");
+
+sayur.querySelector(".itemStart").value = "05:35";
+sayur.querySelector(".itemFinish").value = "06:20";
+
+
+/* LOAD REPORT */
+
+loadReports();
+
+</script>
+
+</body>
+</html>
+```
